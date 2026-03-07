@@ -3,10 +3,11 @@ import xyz.jpenilla.resourcefactory.paper.PaperPluginYaml.Load
 plugins {
 	id("java")
 	id("xyz.jpenilla.resource-factory-paper-convention") version "1.3.1"
+	id("com.gradleup.shadow") version "9.3.2"
 }
 
 group = "fi.fabianadrian"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
 	mavenCentral()
@@ -42,6 +43,22 @@ paperPluginYaml {
 				load = Load.BEFORE
 				required = false
 			}
+		}
+	}
+}
+
+tasks {
+	build {
+		dependsOn(shadowJar)
+	}
+	shadowJar {
+		archiveClassifier.set("")
+
+		sequenceOf(
+			"org.bstats",
+			"space.arim.dazzleconf"
+		).forEach { pkg ->
+			relocate(pkg, "fi.fabianadrian.afksystem.dependency.$pkg")
 		}
 	}
 }
