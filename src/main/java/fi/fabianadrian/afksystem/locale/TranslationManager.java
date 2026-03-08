@@ -58,12 +58,7 @@ public final class TranslationManager {
 	}
 
 	private void copyToLocaleDirectory() {
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.localeDirectoryPath, "*.properties")) {
-			if (stream.iterator().hasNext()) {
-				return;
-			}
-		} catch (IOException e) {
-			this.logger.error("Couldn't read locale directory");
+		if (localeDirectoryContainsTranslations()) {
 			return;
 		}
 
@@ -80,6 +75,18 @@ public final class TranslationManager {
 				this.logger.error("Couldn't write bundled locale", e);
 			}
 		});
+	}
+
+	private boolean localeDirectoryContainsTranslations() {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.localeDirectoryPath, "*.properties")) {
+			if (stream.iterator().hasNext()) {
+				return true;
+			}
+		} catch (IOException e) {
+			this.logger.error("Couldn't read locale directory");
+			return true; //Assume there are files even if we can't read them
+		}
+		return false;
 	}
 
 	private void registerFromLocaleDirectory() {
