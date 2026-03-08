@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "fi.fabianadrian"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
 	mavenCentral()
@@ -29,6 +29,7 @@ java {
 
 paperPluginYaml {
 	main = "fi.fabianadrian.afksystem.AFKSystem"
+	website = "https://modrinth.com/project/afksystem"
 	author = "FabianAdrian"
 	apiVersion = "1.21.11"
 	permissions {
