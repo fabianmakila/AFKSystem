@@ -21,9 +21,9 @@ public final class TranslationManager {
 	private final Logger logger;
 	private MiniMessageTranslationStore store;
 
-	public TranslationManager(Logger logger, Path localeDirectoryPath) {
+	public TranslationManager(Logger logger, Path dataDirectory) {
 		this.logger = logger;
-		this.localeDirectoryPath = localeDirectoryPath;
+		this.localeDirectoryPath = dataDirectory.resolve("locale");
 	}
 
 	private static boolean isAdventureDuplicatesException(Exception e) {

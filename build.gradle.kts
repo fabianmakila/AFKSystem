@@ -32,6 +32,7 @@ paperPluginYaml {
 	apiVersion = "1.21.11"
 	permissions {
 		register("afksystem.command.reload")
+		register("afksystem.kick.bypass")
 	}
 	dependencies {
 		server {

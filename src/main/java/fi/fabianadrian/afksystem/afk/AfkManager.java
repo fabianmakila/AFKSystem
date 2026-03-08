@@ -47,8 +47,8 @@ public final class AfkManager {
 		}
 	}
 
-	public void markAsActive(UUID uuid) {
-		this.afkStatusMap.compute(uuid, (uuid1, status) -> {
+	public void markAsActive(Player player) {
+		this.afkStatusMap.compute(player.getUniqueId(), (uuid, status) -> {
 			if (status == null) {
 				return new AfkStatus();
 			}
@@ -71,8 +71,8 @@ public final class AfkManager {
 		return status.state() != AfkState.NOT_AFK;
 	}
 
-	public void remove(UUID uuid) {
-		this.afkStatusMap.remove(uuid);
+	public void remove(Player player) {
+		this.afkStatusMap.remove(player.getUniqueId());
 	}
 
 	private void tick() {
