@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.AbstractResolver;
 import io.github.miniplaceholders.api.resolver.AudienceTagResolver;
 import net.kyori.adventure.text.Component;
@@ -14,7 +14,7 @@ public final class IndicatorResolver extends AbstractResolver implements Audienc
 	private static final Tag TAG_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.indicator.afk"));
 	private static final Tag TAG_NOT_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.indicator.not_afk"));
 
-	public IndicatorResolver(AfkSystem plugin) {
+	public IndicatorResolver(AFKSystem plugin) {
 		super(plugin);
 	}
 

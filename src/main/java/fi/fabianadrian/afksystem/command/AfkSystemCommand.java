@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
@@ -27,10 +27,10 @@ public final class AfkSystemCommand {
 			"afksystem.command.reload.failure", NamedTextColor.RED
 	));
 	private static final String PERMISSION_RELOAD = "afksystem.command.reload";
-	private final AfkSystem plugin;
+	private final AFKSystem plugin;
 	private final LifecycleEventManager<Plugin> manager;
 
-	public AfkSystemCommand(AfkSystem plugin) {
+	public AfkSystemCommand(AFKSystem plugin) {
 		this.plugin = plugin;
 		this.manager = plugin.getLifecycleManager();
 	}

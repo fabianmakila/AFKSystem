@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.AbstractResolver;
 import io.github.miniplaceholders.api.resolver.AudienceTagResolver;
 import net.kyori.adventure.text.Component;
@@ -18,7 +18,7 @@ public final class BooleanResolver extends AbstractResolver implements AudienceT
 	private static final Tag TAG_TRANSLATABLE_TRUE = Tag.selfClosingInserting(Component.translatable("afksystem.boolean.true"));
 	private static final Tag TAG_TRANSLATABLE_FALSE = Tag.selfClosingInserting(Component.translatable("afksystem.boolean.false"));
 
-	public BooleanResolver(AfkSystem plugin) {
+	public BooleanResolver(AFKSystem plugin) {
 		super(plugin);
 	}
 

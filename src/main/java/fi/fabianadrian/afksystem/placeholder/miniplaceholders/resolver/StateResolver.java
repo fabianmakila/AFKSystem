@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.afk.AfkState;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.AbstractResolver;
 import io.github.miniplaceholders.api.resolver.AudienceTagResolver;
@@ -13,7 +13,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.Locale;
 
 public final class StateResolver extends AbstractResolver implements AudienceTagResolver<Player> {
-	public StateResolver(AfkSystem plugin) {
+	public StateResolver(AFKSystem plugin) {
 		super(plugin);
 	}
 

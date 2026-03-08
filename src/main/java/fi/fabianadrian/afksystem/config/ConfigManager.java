@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.config;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import org.slf4j.Logger;
 import space.arim.dazzleconf.Configuration;
 import space.arim.dazzleconf.LoadResult;
@@ -19,7 +19,7 @@ public final class ConfigManager {
 	private final Logger logger;
 	private AfkConfig config;
 
-	public ConfigManager(AfkSystem plugin) {
+	public ConfigManager(AFKSystem plugin) {
 		this.dataDirectory = plugin.getDataPath();
 		this.logger = plugin.getSLF4JLogger();
 

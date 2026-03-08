@@ -1,1 +1,1 @@
-rootProject.name = "AfkSystem"
+rootProject.name = "AFKSystem"

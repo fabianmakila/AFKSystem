@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.placeholder;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.afk.AfkManager;
 import fi.fabianadrian.afksystem.afk.AfkState;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -38,7 +38,7 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 			"minimessage", (component, player) -> MiniMessage.miniMessage().serialize(component)
 	);
 
-	public PlaceholderAPIExpansion(AfkSystem plugin) {
+	public PlaceholderAPIExpansion(AFKSystem plugin) {
 		this.afkManager = plugin.afkManager();
 	}
 

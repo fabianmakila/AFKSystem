@@ -8,13 +8,14 @@ import fi.fabianadrian.afksystem.event.listener.ChatListener;
 import fi.fabianadrian.afksystem.event.listener.PlayerListener;
 import fi.fabianadrian.afksystem.locale.TranslationManager;
 import fi.fabianadrian.afksystem.placeholder.ExpansionManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.List;
 
-public final class AfkSystem extends JavaPlugin {
+public final class AFKSystem extends JavaPlugin {
 	private final ExpansionManager expansionManager = new ExpansionManager(this);
 	private ConfigManager configManager;
 	private AfkManager afkManager;
@@ -33,6 +34,7 @@ public final class AfkSystem extends JavaPlugin {
 		this.expansionManager.register();
 		new AfkSystemCommand(this).register();
 		registerListeners();
+		new Metrics(this, 29995);
 
 		try {
 			this.configManager.load();

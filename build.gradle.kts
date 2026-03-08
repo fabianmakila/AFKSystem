@@ -20,6 +20,7 @@ dependencies {
 	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.1.0")
 	compileOnly("me.clip:placeholderapi:2.12.2")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
+	implementation("org.bstats:bstats-bukkit:3.2.1")
 }
 
 java {
@@ -27,7 +28,7 @@ java {
 }
 
 paperPluginYaml {
-	main = "fi.fabianadrian.afksystem.AfkSystem"
+	main = "fi.fabianadrian.afksystem.AFKSystem"
 	author = "FabianAdrian"
 	apiVersion = "1.21.11"
 	permissions {

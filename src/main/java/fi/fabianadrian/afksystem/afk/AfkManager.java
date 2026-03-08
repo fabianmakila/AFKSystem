@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.afk;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.config.AfkConfig;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
@@ -18,7 +18,7 @@ public final class AfkManager {
 	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick");
 	private static final TranslatableComponent COMPONENT_INFO = Component.translatable("afksystem.info");
 	private final Map<UUID, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
-	private final AfkSystem plugin;
+	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 	private long afkMarkNanos;
 	private long kickNanos;
@@ -26,7 +26,7 @@ public final class AfkManager {
 	private TranslatableComponent warnComponent;
 	private ScheduledFuture<?> scheduledFuture;
 
-	public AfkManager(AfkSystem plugin) {
+	public AfkManager(AFKSystem plugin) {
 		this.plugin = plugin;
 	}
 

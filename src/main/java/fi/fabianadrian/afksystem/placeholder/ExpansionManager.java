@@ -1,13 +1,13 @@
 package fi.fabianadrian.afksystem.placeholder;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.MiniPlaceholdersExpansion;
 import org.bukkit.plugin.PluginManager;
 
 public final class ExpansionManager {
-	private final AfkSystem plugin;
+	private final AFKSystem plugin;
 
-	public ExpansionManager(AfkSystem plugin) {
+	public ExpansionManager(AFKSystem plugin) {
 		this.plugin = plugin;
 	}
 

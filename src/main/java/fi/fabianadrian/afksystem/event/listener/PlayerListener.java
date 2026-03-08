@@ -1,6 +1,6 @@
 package fi.fabianadrian.afksystem.event.listener;
 
-import fi.fabianadrian.afksystem.AfkSystem;
+import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.event.EventType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public final class PlayerListener implements Listener {
-	private final AfkSystem plugin;
+	private final AFKSystem plugin;
 
-	public PlayerListener(AfkSystem plugin) {
+	public PlayerListener(AFKSystem plugin) {
 		this.plugin = plugin;
 	}
 
