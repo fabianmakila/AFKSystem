@@ -16,16 +16,16 @@ import java.io.IOException;
 import java.util.List;
 
 public final class AFKSystem extends JavaPlugin {
-	private final ExpansionManager expansionManager = new ExpansionManager(this);
-	private ConfigManager configManager;
-	private AfkManager afkManager;
-	private TranslationManager translationManager;
+	private final AfkManager afkManager;
+	private final ConfigManager configManager;
+	private final ExpansionManager expansionManager;
+	private final TranslationManager translationManager;
 
-	@Override
-	public void onLoad() {
-		this.translationManager = new TranslationManager(getSLF4JLogger(), getDataPath());
-		this.configManager = new ConfigManager(this);
+	public AFKSystem() {
 		this.afkManager = new AfkManager(this);
+		this.configManager = new ConfigManager(this);
+		this.expansionManager = new ExpansionManager(this);
+		this.translationManager = new TranslationManager(getSLF4JLogger(), getDataPath());
 	}
 
 	@Override
