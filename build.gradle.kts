@@ -59,9 +59,6 @@ tasks {
 	compileJava {
 		options.encoding = Charsets.UTF_8.name()
 	}
-	shadowJar {
-		archiveClassifier.set("")
-	}
 }
 
 spotless {

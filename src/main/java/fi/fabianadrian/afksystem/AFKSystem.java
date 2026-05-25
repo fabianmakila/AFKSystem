@@ -6,15 +6,12 @@ import fi.fabianadrian.afksystem.afk.AfkManager;
 import fi.fabianadrian.afksystem.command.AfkSystemCommand;
 import fi.fabianadrian.afksystem.config.AfkConfig;
 import fi.fabianadrian.afksystem.config.ConfigManager;
-import fi.fabianadrian.afksystem.event.listener.ChatListener;
-import fi.fabianadrian.afksystem.event.listener.PlayerListener;
+import fi.fabianadrian.afksystem.event.EventListener;
 import fi.fabianadrian.afksystem.locale.TranslationManager;
 import fi.fabianadrian.afksystem.placeholder.ExpansionManager;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.List;
 
 public final class AFKSystem extends JavaPlugin {
 	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
@@ -40,7 +37,7 @@ public final class AFKSystem extends JavaPlugin {
 		this.translationManager.load();
 		this.expansionManager.register();
 		new AfkSystemCommand(this).register();
-		registerListeners();
+		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
 		try {
 			this.configManager.load();
@@ -69,13 +66,5 @@ public final class AFKSystem extends JavaPlugin {
 
 	public AfkManager afkManager() {
 		return this.afkManager;
-	}
-
-	private void registerListeners() {
-		PluginManager manager = getServer().getPluginManager();
-		List.of(
-				new ChatListener(this),
-				new PlayerListener(this)
-		).forEach(listener -> manager.registerEvents(listener, this));
 	}
 }

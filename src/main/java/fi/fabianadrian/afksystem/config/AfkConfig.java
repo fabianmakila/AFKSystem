@@ -1,7 +1,9 @@
 package fi.fabianadrian.afksystem.config;
 
+import fi.fabianadrian.afksystem.config.section.ProtectionSection;
 import fi.fabianadrian.afksystem.event.EventType;
 import space.arim.dazzleconf.engine.Comments;
+import space.arim.dazzleconf.engine.liaison.SubSection;
 
 import java.util.List;
 
@@ -26,4 +28,7 @@ public interface AfkConfig {
 	default List<EventType> events() {
 		return List.of(EventType.CHAT, EventType.INPUT);
 	}
+
+	@SubSection
+	ProtectionSection protection();
 }
