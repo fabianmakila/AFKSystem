@@ -19,7 +19,7 @@ public final class IndicatorResolver extends AbstractResolver implements Audienc
 	}
 
 	@Override
-	public @NonNull Tag tag(Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
+	public @NonNull Tag tag(@NonNull Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
 		return super.afkManager.afk(player) ? TAG_AFK : TAG_NOT_AFK;
 	}
 }

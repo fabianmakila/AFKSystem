@@ -35,7 +35,7 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 			"legacy_ampersand", (component, player) -> LegacyComponentSerializer.legacyAmpersand()
 					.serialize(GlobalTranslator.render(component, player)),
 
-			"minimessage", (component, player) -> MiniMessage.miniMessage().serialize(component)
+			"minimessage", (component, _) -> MiniMessage.miniMessage().serialize(component)
 	);
 
 	public PlaceholderAPIExpansion(AFKSystem plugin) {
@@ -73,7 +73,7 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 					return afk ? "yes" : "no";
 				}
 				case "truefalse" -> {
-					return afk ? "true" : "false";
+					return Boolean.toString(afk);
 				}
 				default -> {
 					return serializeBoolean(afk, player, key);

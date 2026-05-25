@@ -18,7 +18,7 @@ public final class StateResolver extends AbstractResolver implements AudienceTag
 	}
 
 	@Override
-	public @NonNull Tag tag(Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
+	public @NonNull Tag tag(@NonNull Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
 		AfkState state = super.afkManager.state(player);
 		if (queue.hasNext()) {
 			switch (queue.pop().lowerValue()) {

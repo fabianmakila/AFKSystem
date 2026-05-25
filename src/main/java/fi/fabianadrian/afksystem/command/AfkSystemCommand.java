@@ -53,8 +53,9 @@ public final class AfkSystemCommand {
 		try {
 			this.plugin.load();
 			ctx.getSource().getSender().sendMessage(COMPONENT_RELOAD_SUCCESS);
-		} catch (Throwable e) {
-			this.plugin.getSLF4JLogger().error("Couldn't reload plugin", e);
+		} catch (Throwable throwable) {
+			AFKSystem.ERROR_TRACKER.trackError(throwable);
+			this.plugin.getSLF4JLogger().error("Couldn't reload plugin", throwable);
 			ctx.getSource().getSender().sendMessage(COMPONENT_RELOAD_FAILURE);
 		}
 

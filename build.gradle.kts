@@ -13,6 +13,7 @@ version = "1.1.0-SNAPSHOT"
 repositories {
 	mavenCentral()
 	maven("https://repo.papermc.io/repository/maven-public/")
+	maven("https://repo.faststats.dev/releases") // FastStats
 	maven("https://repo.extendedclip.com/releases/") // PlaceholderAPI
 }
 
@@ -21,7 +22,7 @@ dependencies {
 	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.2.0")
 	compileOnly("me.clip:placeholderapi:2.12.2")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
-	implementation("org.bstats:bstats-bukkit:3.2.1")
+	implementation("dev.faststats.metrics:bukkit:0.23.0")
 }
 
 java {

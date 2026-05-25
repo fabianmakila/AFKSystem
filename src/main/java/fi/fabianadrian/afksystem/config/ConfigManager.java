@@ -1,7 +1,6 @@
 package fi.fabianadrian.afksystem.config;
 
 import fi.fabianadrian.afksystem.AFKSystem;
-import org.slf4j.Logger;
 import space.arim.dazzleconf.Configuration;
 import space.arim.dazzleconf.LoadResult;
 import space.arim.dazzleconf.backend.Backend;
@@ -16,12 +15,10 @@ public final class ConfigManager {
 	private final Configuration<AfkConfig> configuration;
 	private final Backend backend;
 	private final Path dataDirectory;
-	private final Logger logger;
 	private AfkConfig config;
 
 	public ConfigManager(AFKSystem plugin) {
 		this.dataDirectory = plugin.getDataPath();
-		this.logger = plugin.getSLF4JLogger();
 
 		this.configuration = Configuration.defaultBuilder(AfkConfig.class).build();
 		this.backend = new TomlBackend(new PathRoot(this.dataDirectory.resolve("config.toml")));

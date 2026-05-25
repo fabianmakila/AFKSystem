@@ -1,5 +1,6 @@
 package fi.fabianadrian.afksystem.locale;
 
+import fi.fabianadrian.afksystem.AFKSystem;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.translation.MiniMessageTranslationStore;
 import net.kyori.adventure.translation.GlobalTranslator;
@@ -52,8 +53,9 @@ public final class TranslationManager {
 	private void createLocaleDirectory() {
 		try {
 			Files.createDirectories(this.localeDirectoryPath);
-		} catch (IOException e) {
-			this.logger.error("Couldn't create locale directory", e);
+		} catch (IOException exception) {
+			AFKSystem.ERROR_TRACKER.trackError(exception);
+			this.logger.error("Couldn't create locale directory", exception);
 		}
 	}
 
@@ -71,8 +73,9 @@ public final class TranslationManager {
 
 			try {
 				Files.copy(this.getClass().getClassLoader().getResourceAsStream(fileName), defaultBundlePath);
-			} catch (IOException e) {
-				this.logger.error("Couldn't write bundled locale", e);
+			} catch (IOException exception) {
+				AFKSystem.ERROR_TRACKER.trackError(exception);
+				this.logger.error("Couldn't write bundled locale", exception);
 			}
 		});
 	}
@@ -82,8 +85,9 @@ public final class TranslationManager {
 			if (stream.iterator().hasNext()) {
 				return true;
 			}
-		} catch (IOException e) {
-			this.logger.error("Couldn't read locale directory");
+		} catch (IOException exception) {
+			AFKSystem.ERROR_TRACKER.trackError(exception);
+			this.logger.error("Couldn't read locale directory", exception);
 			return true; //Assume there are files even if we can't read them
 		}
 		return false;
@@ -114,8 +118,9 @@ public final class TranslationManager {
 			if (loadedLocaleNamesJoiner.length() != 0) {
 				this.logger.info("Loaded locales: {}", loadedLocaleNamesJoiner);
 			}
-		} catch (IOException e) {
-			this.logger.warn("Couldn't read the locale directory", e);
+		} catch (IOException exception) {
+			AFKSystem.ERROR_TRACKER.trackError(exception);
+			this.logger.warn("Couldn't read the locale directory", exception);
 		}
 	}
 
@@ -123,11 +128,12 @@ public final class TranslationManager {
 		ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.US);
 		try {
 			this.store.registerAll(Locale.US, bundle, false);
-		} catch (IllegalArgumentException e) {
-			if (isAdventureDuplicatesException(e)) {
+		} catch (IllegalArgumentException exception) {
+			if (isAdventureDuplicatesException(exception)) {
 				return;
 			}
-			this.logger.warn("Error registering default locale", e);
+			AFKSystem.ERROR_TRACKER.trackError(exception);
+			this.logger.error("Error registering default locale", exception);
 		}
 	}
 

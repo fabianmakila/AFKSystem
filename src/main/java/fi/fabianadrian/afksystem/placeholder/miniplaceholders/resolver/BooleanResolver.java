@@ -23,7 +23,7 @@ public final class BooleanResolver extends AbstractResolver implements AudienceT
 	}
 
 	@Override
-	public @NonNull Tag tag(Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
+	public @NonNull Tag tag(@NonNull Player player, @NonNull ArgumentQueue queue, @NonNull Context ctx) {
 		boolean afk = super.afkManager.afk(player);
 		if (queue.hasNext()) {
 			switch (queue.pop().lowerValue()) {
