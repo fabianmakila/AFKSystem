@@ -48,7 +48,7 @@ public final class AfkManager {
 	}
 
 	public void markAsActive(Player player) {
-		this.afkStatusMap.compute(player.getUniqueId(), (uuid, status) -> {
+		this.afkStatusMap.compute(player.getUniqueId(), (_, status) -> {
 			if (status == null) {
 				return new AfkStatus();
 			}
