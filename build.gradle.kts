@@ -3,7 +3,7 @@ import xyz.jpenilla.resourcefactory.paper.PaperPluginYaml.Load
 plugins {
 	id("java")
 	id("xyz.jpenilla.resource-factory-paper-convention") version "1.3.1"
-	id("com.gradleup.shadow") version "9.3.2"
+	id("com.gradleup.shadow") version "9.4.1"
 }
 
 group = "fi.fabianadrian"
@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-	compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.1.0")
+	compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.2.0")
 	compileOnly("me.clip:placeholderapi:2.12.2")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
 	implementation("org.bstats:bstats-bukkit:3.2.1")
