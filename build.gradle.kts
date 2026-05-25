@@ -4,6 +4,7 @@ plugins {
 	id("java")
 	id("xyz.jpenilla.resource-factory-paper-convention") version "1.3.1"
 	id("com.gradleup.shadow") version "9.4.1"
+	id("com.diffplug.spotless") version "8.5.1"
 }
 
 group = "fi.fabianadrian"
@@ -52,7 +53,10 @@ paperPluginYaml {
 
 tasks {
 	build {
-		dependsOn(shadowJar)
+		dependsOn(shadowJar, spotlessApply)
+	}
+	compileJava {
+		options.encoding = Charsets.UTF_8.name()
 	}
 	shadowJar {
 		archiveClassifier.set("")
@@ -63,5 +67,15 @@ tasks {
 		).forEach { pkg ->
 			relocate(pkg, "fi.fabianadrian.afksystem.dependency.$pkg")
 		}
+	}
+}
+
+spotless {
+	java {
+		endWithNewline()
+		formatAnnotations()
+		leadingSpacesToTabs()
+		removeUnusedImports()
+		trimTrailingWhitespace()
 	}
 }
