@@ -2,7 +2,8 @@ package fi.fabianadrian.afksystem.afk;
 
 public final class AfkStatus {
 	private long afkSince;
-	private AfkState state = AfkState.NOT_AFK;
+	private boolean warned = false;
+	private boolean afk = false;
 
 	public AfkStatus() {
 		this.afkSince = System.nanoTime();
@@ -10,18 +11,27 @@ public final class AfkStatus {
 
 	public void markAsActive() {
 		this.afkSince = System.nanoTime();
-		this.state = AfkState.NOT_AFK;
+		this.warned = false;
+		this.afk = false;
+	}
+
+	public void markAsAfk() {
+		this.afk = true;
+	}
+
+	public void markAsWarned() {
+		this.warned = true;
 	}
 
 	public long hasBeenAfkFor() {
 		return System.nanoTime() - this.afkSince;
 	}
 
-	public AfkState state() {
-		return this.state;
+	public boolean warned() {
+		return this.warned;
 	}
 
-	public void state(AfkState state) {
-		this.state = state;
+	public boolean afk() {
+		return this.afk;
 	}
 }

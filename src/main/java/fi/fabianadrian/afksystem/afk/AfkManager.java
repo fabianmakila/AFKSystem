@@ -21,25 +21,27 @@ public final class AfkManager {
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 	private long afkMarkNanos;
-	private long kickNanos;
 	private long warnNanos;
+	private long kickNanos;
 	private TranslatableComponent warnComponent;
 	private ScheduledFuture<?> scheduledFuture;
+	private AfkConfig config;
+
 
 	public AfkManager(AFKSystem plugin) {
 		this.plugin = plugin;
 	}
 
 	public void load() {
-		AfkConfig config = this.plugin.config();
+		this.config = this.plugin.config();
 
-		this.afkMarkNanos = TimeUnit.SECONDS.toNanos(this.plugin.config().afkMarkSeconds());
-		this.kickNanos = TimeUnit.SECONDS.toNanos(this.plugin.config().afkKickSeconds());
-		this.warnNanos = this.kickNanos - TimeUnit.SECONDS.toNanos(config.afkWarnBeforeKickSeconds());
+		this.afkMarkNanos = TimeUnit.SECONDS.toNanos(this.config.afkMarkSeconds());
+		this.warnNanos = TimeUnit.SECONDS.toNanos(this.config.afkWarnSeconds());
+		this.kickNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds());
 
 		this.warnComponent = Component.translatable(
 				"afksystem.warn",
-				Argument.numeric("seconds", config.afkWarnBeforeKickSeconds())
+				Argument.numeric("seconds", this.config.afkWarnSeconds())
 		);
 
 		if (this.scheduledFuture == null) {
@@ -57,9 +59,15 @@ public final class AfkManager {
 		});
 	}
 
-	public AfkState state(Player player) {
-		AfkStatus status = this.afkStatusMap.get(player.getUniqueId());
-		return status == null ? AfkState.NOT_AFK : status.state();
+	public void markAsAfk(Player player) {
+		this.afkStatusMap.compute(player.getUniqueId(), (_, status) -> {
+			if (status == null) {
+				status = new AfkStatus();
+			}
+			status.markAsAfk();
+			player.sendMessage(COMPONENT_INFO);
+			return status;
+		});
 	}
 
 	public boolean afk(Player player) {
@@ -68,7 +76,7 @@ public final class AfkManager {
 			return false;
 		}
 
-		return status.state() != AfkState.NOT_AFK;
+		return status.afk();
 	}
 
 	public void remove(Player player) {
@@ -84,33 +92,21 @@ public final class AfkManager {
 
 			AfkStatus status = entry.getValue();
 
-			switch (status.state()) {
-				case NOT_AFK -> {
-					if (status.hasBeenAfkFor() < this.afkMarkNanos) {
-						return false;
-					}
-					if (player.hasPermission("afksystem.kick.bypass")) {
-						status.state(AfkState.AFK_BYPASS);
-					} else {
-						status.state(AfkState.AFK);
-					}
-					player.sendMessage(COMPONENT_INFO);
-				}
-				case AFK -> {
-					if (status.hasBeenAfkFor() < this.warnNanos) {
-						return false;
-					}
-					status.state(AfkState.AFK_WARNED);
-					player.sendMessage(this.warnComponent);
-				}
-				case AFK_WARNED -> {
-					if (status.hasBeenAfkFor() < this.kickNanos) {
-						return false;
-					}
+			if (!player.hasPermission("afksystem.kick.bypass")) {
+				if (this.config.afkKickSeconds() >= 0 && status.hasBeenAfkFor() >= this.kickNanos) {
 					Component rendered = GlobalTranslator.render(COMPONENT_KICK, player.locale());
 					player.kick(rendered, PlayerKickEvent.Cause.IDLING);
 				}
+				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.hasBeenAfkFor() >= this.warnNanos) {
+					status.markAsWarned();
+					player.sendMessage(this.warnComponent);
+				}
 			}
+			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.hasBeenAfkFor() >= this.afkMarkNanos) {
+				status.markAsAfk();
+				player.sendMessage(COMPONENT_INFO);
+			}
+
 			return false;
 		});
 	}

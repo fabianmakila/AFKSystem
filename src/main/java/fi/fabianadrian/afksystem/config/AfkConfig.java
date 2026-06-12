@@ -10,21 +10,25 @@ import java.util.List;
 
 public interface AfkConfig {
 	@Comments("Idle time in seconds before a player is marked as AFK")
-	@IntegerRange(min = 1)
+	@Comments("Set to -1 to disable")
+	@IntegerRange(min = -1)
 	default int afkMarkSeconds() {
 		return 300;
 	}
 
-	@Comments("Total idle time in seconds before a player is kicked")
-	@IntegerRange(min = 1)
-	default int afkKickSeconds() {
-		return 600;
+	@Comments("Total idle time in seconds before a player is warned about being kicked soon")
+	@Comments("This should be less than afkKickSeconds")
+	@Comments("Set to -1 to disable")
+	@IntegerRange(min = -1)
+	default int afkWarnSeconds() {
+		return 570;
 	}
 
-	@Comments("Seconds before the kick when a warning is sent")
-	@IntegerRange(min = 1)
-	default int afkWarnBeforeKickSeconds() {
-		return 30;
+	@Comments("Total idle time in seconds before a player is kicked")
+	@Comments("Set to -1 to disable")
+	@IntegerRange(min = -1)
+	default int afkKickSeconds() {
+		return 600;
 	}
 
 	@Comments("Which events will reset the AFK timer")

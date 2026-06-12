@@ -8,13 +8,14 @@ plugins {
 }
 
 group = "fi.fabianadrian"
-version = "1.1.0-SNAPSHOT"
+version = "1.1.0"
 
 repositories {
 	mavenCentral()
 	maven("https://repo.papermc.io/repository/maven-public/")
 	maven("https://repo.faststats.dev/releases") // FastStats
 	maven("https://repo.extendedclip.com/releases/") // PlaceholderAPI
+	maven("https://eldonexus.de/repository/maven-public/") // StrokkCommands
 }
 
 dependencies {
@@ -23,6 +24,8 @@ dependencies {
 	compileOnly("me.clip:placeholderapi:2.12.2")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
 	implementation("dev.faststats.metrics:bukkit:0.23.0")
+	compileOnly("net.strokkur.commands:annotations-paper:2.1.1")
+	annotationProcessor("net.strokkur.commands:processor-paper:2.1.1")
 }
 
 java {
@@ -35,7 +38,8 @@ paperPluginYaml {
 	author = "FabianAdrian"
 	apiVersion = "1.21.11"
 	permissions {
-		register("afksystem.command.reload")
+		register("afksystem.command.afk")
+		register("afksystem.command.afksystem.reload")
 		register("afksystem.kick.bypass")
 	}
 	dependencies {

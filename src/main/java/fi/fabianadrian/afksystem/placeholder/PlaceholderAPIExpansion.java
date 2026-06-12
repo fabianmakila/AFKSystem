@@ -2,7 +2,6 @@ package fi.fabianadrian.afksystem.placeholder;
 
 import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.afk.AfkManager;
-import fi.fabianadrian.afksystem.afk.AfkState;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
@@ -77,21 +76,6 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 				}
 				default -> {
 					return serializeBoolean(afk, player, key);
-				}
-			}
-		}
-		if (lower.startsWith("state_")) {
-			AfkState state = this.afkManager.state(player);
-			String key = lower.substring("state_".length());
-			switch (key) {
-				case "lower" -> {
-					return state.name().toLowerCase(Locale.ROOT);
-				}
-				case "upper" -> {
-					return state.name();
-				}
-				default -> {
-					return serializeComponent(state.translatable(), player, key);
 				}
 			}
 		}

@@ -3,7 +3,6 @@ package fi.fabianadrian.afksystem.placeholder.miniplaceholders;
 import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver.BooleanResolver;
 import fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver.IndicatorResolver;
-import fi.fabianadrian.afksystem.placeholder.miniplaceholders.resolver.StateResolver;
 import io.github.miniplaceholders.api.Expansion;
 import org.bukkit.entity.Player;
 
@@ -15,7 +14,6 @@ public final class MiniPlaceholdersExpansion {
 
 		builder.audiencePlaceholder(Player.class, "boolean", new BooleanResolver(plugin));
 		builder.audiencePlaceholder(Player.class, "indicator", new IndicatorResolver(plugin));
-		builder.audiencePlaceholder(Player.class, "state", new StateResolver(plugin));
 
 		this.expansion = builder.build();
 	}

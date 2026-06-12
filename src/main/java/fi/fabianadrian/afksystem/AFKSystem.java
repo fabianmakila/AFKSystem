@@ -3,12 +3,15 @@ package fi.fabianadrian.afksystem;
 import dev.faststats.bukkit.BukkitMetrics;
 import dev.faststats.core.ErrorTracker;
 import fi.fabianadrian.afksystem.afk.AfkManager;
-import fi.fabianadrian.afksystem.command.AfkSystemCommand;
+import fi.fabianadrian.afksystem.command.AfkCommandBrigadier;
+import fi.fabianadrian.afksystem.command.AfkSystemCommandBrigadier;
 import fi.fabianadrian.afksystem.config.AfkConfig;
 import fi.fabianadrian.afksystem.config.ConfigManager;
 import fi.fabianadrian.afksystem.event.EventListener;
 import fi.fabianadrian.afksystem.locale.TranslationManager;
 import fi.fabianadrian.afksystem.placeholder.ExpansionManager;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -36,7 +39,13 @@ public final class AFKSystem extends JavaPlugin {
 		this.metrics.ready();
 		this.translationManager.load();
 		this.expansionManager.register();
-		new AfkSystemCommand(this).register();
+
+		getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+			final Commands commands = event.registrar();
+			commands.register(AfkSystemCommandBrigadier.create(this));
+			commands.register(AfkCommandBrigadier.create(this));
+		});
+
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
 		try {
