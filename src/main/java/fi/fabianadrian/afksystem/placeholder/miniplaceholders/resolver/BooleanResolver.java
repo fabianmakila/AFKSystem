@@ -15,8 +15,8 @@ public final class BooleanResolver extends AbstractResolver implements AudienceT
 	private static final Tag TAG_NO = Tag.preProcessParsed("no");
 	private static final Tag TAG_TRUE = Tag.preProcessParsed("true");
 	private static final Tag TAG_FALSE = Tag.preProcessParsed("false");
-	private static final Tag TAG_TRANSLATABLE_TRUE = Tag.selfClosingInserting(Component.translatable("afksystem.boolean.true"));
-	private static final Tag TAG_TRANSLATABLE_FALSE = Tag.selfClosingInserting(Component.translatable("afksystem.boolean.false"));
+	private static final Tag TAG_TRANSLATABLE_TRUE = Tag.selfClosingInserting(Component.translatable("afksystem.placeholder.boolean.true"));
+	private static final Tag TAG_TRANSLATABLE_FALSE = Tag.selfClosingInserting(Component.translatable("afksystem.placeholder.boolean.false"));
 
 	public BooleanResolver(AFKSystem plugin) {
 		super(plugin);

@@ -18,10 +18,10 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
-	private static final TranslatableComponent COMPONENT_BOOLEAN_TRUE = Component.translatable("afksystem.boolean.true");
-	private static final TranslatableComponent COMPONENT_BOOLEAN_FALSE = Component.translatable("afksystem.boolean.false");
-	private static final TranslatableComponent INDICATOR_AFK = Component.translatable("afksystem.indicator.afk");
-	private static final TranslatableComponent INDICATOR_NOT_AFK = Component.translatable("afksystem.indicator.not_afk");
+	private static final TranslatableComponent COMPONENT_BOOLEAN_TRUE = Component.translatable("afksystem.placeholder.boolean.true");
+	private static final TranslatableComponent COMPONENT_BOOLEAN_FALSE = Component.translatable("afksystem.placeholder.boolean.false");
+	private static final TranslatableComponent INDICATOR_AFK = Component.translatable("afksystem.placeholder.indicator.afk");
+	private static final TranslatableComponent INDICATOR_NOT_AFK = Component.translatable("afksystem.placeholder.indicator.not_afk");
 	private final AfkManager afkManager;
 
 	private final Map<String, BiFunction<Component, Locale, String>> serializers = Map.of(

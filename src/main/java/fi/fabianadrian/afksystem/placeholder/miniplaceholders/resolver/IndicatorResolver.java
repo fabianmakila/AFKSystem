@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 
 public final class IndicatorResolver extends AbstractResolver implements AudienceTagResolver<Player> {
-	private static final Tag TAG_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.indicator.afk"));
-	private static final Tag TAG_NOT_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.indicator.not_afk"));
+	private static final Tag TAG_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.placeholder.indicator.afk"));
+	private static final Tag TAG_NOT_AFK = Tag.selfClosingInserting(Component.translatable("afksystem.placeholder.indicator.not_afk"));
 
 	public IndicatorResolver(AFKSystem plugin) {
 		super(plugin);

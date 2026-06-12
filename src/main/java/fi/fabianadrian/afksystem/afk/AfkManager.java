@@ -15,8 +15,8 @@ import java.util.UUID;
 import java.util.concurrent.*;
 
 public final class AfkManager {
-	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick");
-	private static final TranslatableComponent COMPONENT_INFO = Component.translatable("afksystem.info");
+	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick.reason");
+	private static final TranslatableComponent COMPONENT_INFO = Component.translatable("afksystem.now-afk");
 	private final Map<UUID, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -40,7 +40,7 @@ public final class AfkManager {
 		this.kickNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds());
 
 		this.warnComponent = Component.translatable(
-				"afksystem.warn",
+				"afksystem.kick.warning",
 				Argument.numeric("seconds", this.config.afkWarnSeconds())
 		);
 
