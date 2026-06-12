@@ -92,8 +92,8 @@ public final class AfkManager {
 
 			AfkStatus status = entry.getValue();
 
-			if (!player.hasPermission("afksystem.kick.bypass")) {
-				if (this.config.afkKickSeconds() >= 0 && status.hasBeenAfkFor() >= this.kickNanos) {
+			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
+				if (status.hasBeenAfkFor() >= this.kickNanos) {
 					Component rendered = GlobalTranslator.render(COMPONENT_KICK, player.locale());
 					player.kick(rendered, PlayerKickEvent.Cause.IDLING);
 				}
