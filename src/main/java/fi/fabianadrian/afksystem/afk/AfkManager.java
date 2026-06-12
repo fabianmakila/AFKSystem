@@ -45,7 +45,7 @@ public final class AfkManager {
 		);
 
 		if (this.scheduledFuture == null) {
-			this.scheduledFuture = this.executorService.scheduleAtFixedRate(() -> Bukkit.getScheduler().runTask(this.plugin, this::tick), 0, 5, TimeUnit.SECONDS);
+			this.scheduledFuture = this.executorService.scheduleAtFixedRate(() -> Bukkit.getScheduler().runTask(this.plugin, this::tick), 0, 1, TimeUnit.SECONDS);
 		}
 	}
 
