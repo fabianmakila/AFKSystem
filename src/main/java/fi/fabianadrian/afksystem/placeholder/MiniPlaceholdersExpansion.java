@@ -1,8 +1,8 @@
 package fi.fabianadrian.afksystem.placeholder;
 
 import fi.fabianadrian.afksystem.AFKSystem;
-import fi.fabianadrian.afksystem.placeholder.placeholder.BooleanFormat;
 import fi.fabianadrian.afksystem.placeholder.placeholder.AfkPlaceholder;
+import fi.fabianadrian.afksystem.placeholder.placeholder.BooleanFormat;
 import fi.fabianadrian.afksystem.placeholder.placeholder.IndicatorPlaceholder;
 import fi.fabianadrian.afksystem.placeholder.placeholder.ListPlaceholder;
 import io.github.miniplaceholders.api.Expansion;
@@ -21,19 +21,19 @@ public final class MiniPlaceholdersExpansion {
 		this.indicatorPlaceholder = new IndicatorPlaceholder(plugin);
 		this.listPlaceholder = new ListPlaceholder(plugin);
 
-		Expansion.Builder builder = Expansion.builder("afksystem");
-
-		builder.audiencePlaceholder(Player.class, "afk", (player, queue, _) -> {
-			if (queue.hasNext()) {
-				BooleanFormat format = BooleanFormat.valueOf(queue.pop().value().toUpperCase(Locale.ROOT));
-				return this.afkPlaceholder.tag(player, format);
-			}
-			return this.afkPlaceholder.tag(player);
-		});
-		builder.audiencePlaceholder(Player.class, "indicator", (player, _, _) -> this.indicatorPlaceholder.tag(player));
-		builder.globalPlaceholder("list", ((_, _) -> this.listPlaceholder.tag()));
-
-		this.expansion = builder.build();
+		this.expansion = Expansion.builder("afksystem")
+				.version(plugin.getPluginMeta().getVersion())
+				.author(plugin.getPluginMeta().getAuthors().getFirst())
+				.audiencePlaceholder(Player.class, "afk", (player, queue, _) -> {
+					if (queue.hasNext()) {
+						BooleanFormat format = BooleanFormat.valueOf(queue.pop().value().toUpperCase(Locale.ROOT));
+						return this.afkPlaceholder.tag(player, format);
+					}
+					return this.afkPlaceholder.tag(player);
+				})
+				.audiencePlaceholder(Player.class, "indicator", (player, _, _) -> this.indicatorPlaceholder.tag(player))
+				.globalPlaceholder("list", ((_, _) -> this.listPlaceholder.tag()))
+				.build();
 	}
 
 	public void register() {

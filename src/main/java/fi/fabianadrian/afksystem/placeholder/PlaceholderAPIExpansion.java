@@ -15,8 +15,10 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 	private final AfkPlaceholder afkPlaceholder;
 	private final IndicatorPlaceholder indicatorPlaceholder;
 	private final ListPlaceholder listPlaceholder;
+	private final AFKSystem plugin;
 
 	public PlaceholderAPIExpansion(AFKSystem plugin) {
+		this.plugin = plugin;
 		this.afkPlaceholder = new AfkPlaceholder(plugin);
 		this.indicatorPlaceholder = new IndicatorPlaceholder(plugin);
 		this.listPlaceholder = new ListPlaceholder(plugin);
@@ -29,12 +31,12 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
 	@Override
 	public @NotNull String getAuthor() {
-		return "FabianAdrian";
+		return this.plugin.getPluginMeta().getAuthors().getFirst();
 	}
 
 	@Override
 	public @NotNull String getVersion() {
-		return "1.0.0";
+		return this.plugin.getPluginMeta().getVersion();
 	}
 
 	@Override
