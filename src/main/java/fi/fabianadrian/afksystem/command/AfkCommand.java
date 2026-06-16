@@ -6,10 +6,12 @@ import fi.fabianadrian.afksystem.message.MessageHandler;
 import net.strokkur.commands.Command;
 import net.strokkur.commands.Executes;
 import net.strokkur.commands.paper.Executor;
+import net.strokkur.commands.permission.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @Command("afk")
+@Permission("afksystem.command.afk")
 public final class AfkCommand {
 	private final AfkManager afkManager;
 	private final MessageHandler messageHandler;
