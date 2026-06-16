@@ -12,7 +12,7 @@
 A simple AFK system for Paper featuring player kicking, placeholders and more
 
 ## Build
-You need JDK 21 to be able to build the plugin.
+You need JDK 25 to be able to build the plugin.
 
 Recommended command for building is `./gradlew build`.
 
