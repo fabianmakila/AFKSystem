@@ -46,10 +46,6 @@ public final class TranslationManager {
 		GlobalTranslator.translator().addSource(this.store);
 	}
 
-	public void defaultLocale(Locale locale) {
-		this.store.defaultLocale(locale);
-	}
-
 	private void createLocaleDirectory() {
 		try {
 			Files.createDirectories(this.localeDirectoryPath);
