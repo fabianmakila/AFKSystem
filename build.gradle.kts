@@ -9,6 +9,7 @@ plugins {
 
 group = "fi.fabianadrian"
 version = "1.2.0"
+description = "A simple AFK system for Paper"
 
 repositories {
 	mavenCentral()
