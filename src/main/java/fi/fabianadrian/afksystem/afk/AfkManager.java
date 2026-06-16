@@ -10,14 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerKickEvent;
 
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.*;
 
 public final class AfkManager {
 	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick.reason");
 	private static final TranslatableComponent COMPONENT_INFO = Component.translatable("afksystem.now-afk");
-	private final Map<UUID, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
+	private final Map<Player, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 	private long afkMarkNanos;
@@ -50,7 +50,7 @@ public final class AfkManager {
 	}
 
 	public void markAsActive(Player player) {
-		this.afkStatusMap.compute(player.getUniqueId(), (_, status) -> {
+		this.afkStatusMap.compute(player, (_, status) -> {
 			if (status == null) {
 				return new AfkStatus();
 			}
@@ -60,7 +60,7 @@ public final class AfkManager {
 	}
 
 	public void markAsAfk(Player player) {
-		this.afkStatusMap.compute(player.getUniqueId(), (_, status) -> {
+		this.afkStatusMap.compute(player, (_, status) -> {
 			if (status == null) {
 				status = new AfkStatus();
 			}
@@ -71,7 +71,7 @@ public final class AfkManager {
 	}
 
 	public boolean afk(Player player) {
-		AfkStatus status = this.afkStatusMap.get(player.getUniqueId());
+		AfkStatus status = this.afkStatusMap.get(player);
 		if (status == null) {
 			return false;
 		}
@@ -80,18 +80,15 @@ public final class AfkManager {
 	}
 
 	public void remove(Player player) {
-		this.afkStatusMap.remove(player.getUniqueId());
+		this.afkStatusMap.remove(player);
+	}
+
+	public List<Player> afkPlayerList() {
+		return this.afkStatusMap.entrySet().stream().filter(entry -> entry.getValue().afk()).map(Map.Entry::getKey).toList();
 	}
 
 	private void tick() {
-		this.afkStatusMap.entrySet().removeIf(entry -> {
-			Player player = this.plugin.getServer().getPlayer(entry.getKey());
-			if (player == null) {
-				return true;
-			}
-
-			AfkStatus status = entry.getValue();
-
+		this.afkStatusMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
 				if (status.hasBeenAfkFor() >= this.kickNanos) {
 					Component rendered = GlobalTranslator.render(COMPONENT_KICK, player.locale());
@@ -106,8 +103,6 @@ public final class AfkManager {
 				status.markAsAfk();
 				player.sendMessage(COMPONENT_INFO);
 			}
-
-			return false;
 		});
 	}
 }

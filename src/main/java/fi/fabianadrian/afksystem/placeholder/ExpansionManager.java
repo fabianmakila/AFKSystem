@@ -1,7 +1,6 @@
 package fi.fabianadrian.afksystem.placeholder;
 
 import fi.fabianadrian.afksystem.AFKSystem;
-import fi.fabianadrian.afksystem.placeholder.miniplaceholders.MiniPlaceholdersExpansion;
 import org.bukkit.plugin.PluginManager;
 
 public final class ExpansionManager {
