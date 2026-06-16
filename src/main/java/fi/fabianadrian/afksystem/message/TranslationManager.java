@@ -1,4 +1,4 @@
-package fi.fabianadrian.afksystem.locale;
+package fi.fabianadrian.afksystem.message;
 
 import fi.fabianadrian.afksystem.AFKSystem;
 import net.kyori.adventure.key.Key;

@@ -8,7 +8,8 @@ import fi.fabianadrian.afksystem.command.AfkSystemCommandBrigadier;
 import fi.fabianadrian.afksystem.config.AfkConfig;
 import fi.fabianadrian.afksystem.config.ConfigManager;
 import fi.fabianadrian.afksystem.event.EventListener;
-import fi.fabianadrian.afksystem.locale.TranslationManager;
+import fi.fabianadrian.afksystem.message.MessageHandler;
+import fi.fabianadrian.afksystem.message.TranslationManager;
 import fi.fabianadrian.afksystem.placeholder.ExpansionManager;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -26,6 +27,7 @@ public final class AFKSystem extends JavaPlugin {
 	private final ConfigManager configManager;
 	private final ExpansionManager expansionManager;
 	private final TranslationManager translationManager;
+	private final MessageHandler messageHandler = new MessageHandler();
 
 	public AFKSystem() {
 		this.afkManager = new AfkManager(this);
@@ -75,5 +77,9 @@ public final class AFKSystem extends JavaPlugin {
 
 	public AfkManager afkManager() {
 		return this.afkManager;
+	}
+
+	public MessageHandler messageHandler() {
+		return this.messageHandler;
 	}
 }

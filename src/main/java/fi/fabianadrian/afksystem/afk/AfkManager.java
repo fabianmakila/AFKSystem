@@ -2,10 +2,10 @@ package fi.fabianadrian.afksystem.afk;
 
 import fi.fabianadrian.afksystem.AFKSystem;
 import fi.fabianadrian.afksystem.config.AfkConfig;
+import fi.fabianadrian.afksystem.message.MessageHandler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.minimessage.translation.Argument;
-import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -15,14 +15,10 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public final class AfkManager {
-	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick.reason");
-	private static final TranslatableComponent COMPONENT_NOTIFICATION_AFK = Component.translatable("afksystem.notification.afk");
-	private static final TranslatableComponent COMPONENT_NOTIFICATION_AFK_BROADCAST = Component.translatable("afksystem.notification.afk.broadcast");
-	private static final TranslatableComponent COMPONENT_NOTIFICATION_NO_LONGER_AFK = Component.translatable("afksystem.notification.no-longer-afk");
-	private static final TranslatableComponent COMPONENT_NOTIFICATION_NO_LONGER_AFK_BROADCAST = Component.translatable("afksystem.notification.no-longer-afk.broadcast");
 	private final Map<Player, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+	private final MessageHandler messageHandler;
 	private long afkMarkNanos;
 	private long warnNanos;
 	private long kickNanos;
@@ -30,9 +26,9 @@ public final class AfkManager {
 	private ScheduledFuture<?> scheduledFuture;
 	private AfkConfig config;
 
-
 	public AfkManager(AFKSystem plugin) {
 		this.plugin = plugin;
+		this.messageHandler = plugin.messageHandler();
 	}
 
 	public void load() {
@@ -58,26 +54,29 @@ public final class AfkManager {
 				return new AfkStatus();
 			}
 			if (status.afk()) {
-				Bukkit.broadcast(COMPONENT_NOTIFICATION_NO_LONGER_AFK, "afksystem.notification.broadcast");
-				if (player.hasPermission("afksystem.notification")) {
-					player.sendMessage(COMPONENT_NOTIFICATION_NO_LONGER_AFK);
-				}
+				this.messageHandler.sendNoLongerAfkNotificationPermission(player);
 			}
 			status.markAsActive();
 			return status;
 		});
 	}
 
-	public void markAsAfk(Player player) {
+	public void markAsActiveCommand(Player player) {
+		this.afkStatusMap.compute(player, (_, status) -> {
+			if (status == null) {
+				return new AfkStatus();
+			}
+			status.markAsActive();
+			return status;
+		});
+	}
+
+	public void markAsAfkCommand(Player player) {
 		this.afkStatusMap.compute(player, (_, status) -> {
 			if (status == null) {
 				status = new AfkStatus();
 			}
 			status.markAsAfk();
-			Bukkit.broadcast(COMPONENT_NOTIFICATION_AFK_BROADCAST, "afksystem.notification.broadcast");
-			if (player.hasPermission("afksystem.notification")) {
-				player.sendMessage(COMPONENT_NOTIFICATION_AFK);
-			}
 			return status;
 		});
 	}
@@ -103,8 +102,7 @@ public final class AfkManager {
 		this.afkStatusMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
 				if (status.hasBeenAfkFor() >= this.kickNanos) {
-					Component rendered = GlobalTranslator.render(COMPONENT_KICK, player.locale());
-					player.kick(rendered, PlayerKickEvent.Cause.IDLING);
+					player.kick(this.messageHandler.kickMessage(player), PlayerKickEvent.Cause.IDLING);
 				}
 				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.hasBeenAfkFor() >= this.warnNanos) {
 					status.markAsWarned();
@@ -113,10 +111,7 @@ public final class AfkManager {
 			}
 			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.hasBeenAfkFor() >= this.afkMarkNanos) {
 				status.markAsAfk();
-				Bukkit.broadcast(COMPONENT_NOTIFICATION_AFK_BROADCAST, "afksystem.notification.broadcast");
-				if (player.hasPermission("afksystem.notification")) {
-					player.sendMessage(COMPONENT_NOTIFICATION_AFK);
-				}
+				this.messageHandler.sendAfkNotificationPermission(player);
 			}
 		});
 	}
