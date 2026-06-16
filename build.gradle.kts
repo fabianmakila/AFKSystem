@@ -41,6 +41,8 @@ paperPluginYaml {
 		register("afksystem.command.afk")
 		register("afksystem.command.afksystem.reload")
 		register("afksystem.kick.bypass")
+		register("afksystem.notification")
+		register("afksystem.notification.broadcast")
 	}
 	dependencies {
 		server {
