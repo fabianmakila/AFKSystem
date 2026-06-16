@@ -16,7 +16,10 @@ import java.util.concurrent.*;
 
 public final class AfkManager {
 	private static final TranslatableComponent COMPONENT_KICK = Component.translatable("afksystem.kick.reason");
-	private static final TranslatableComponent COMPONENT_INFO = Component.translatable("afksystem.now-afk");
+	private static final TranslatableComponent COMPONENT_NOTIFICATION_AFK = Component.translatable("afksystem.notification.afk");
+	private static final TranslatableComponent COMPONENT_NOTIFICATION_AFK_BROADCAST = Component.translatable("afksystem.notification.afk.broadcast");
+	private static final TranslatableComponent COMPONENT_NOTIFICATION_NO_LONGER_AFK = Component.translatable("afksystem.notification.no-longer-afk");
+	private static final TranslatableComponent COMPONENT_NOTIFICATION_NO_LONGER_AFK_BROADCAST = Component.translatable("afksystem.notification.no-longer-afk.broadcast");
 	private final Map<Player, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -54,6 +57,12 @@ public final class AfkManager {
 			if (status == null) {
 				return new AfkStatus();
 			}
+			if (status.afk()) {
+				Bukkit.broadcast(COMPONENT_NOTIFICATION_NO_LONGER_AFK, "afksystem.notification.broadcast");
+				if (player.hasPermission("afksystem.notification")) {
+					player.sendMessage(COMPONENT_NOTIFICATION_NO_LONGER_AFK);
+				}
+			}
 			status.markAsActive();
 			return status;
 		});
@@ -65,7 +74,10 @@ public final class AfkManager {
 				status = new AfkStatus();
 			}
 			status.markAsAfk();
-			player.sendMessage(COMPONENT_INFO);
+			Bukkit.broadcast(COMPONENT_NOTIFICATION_AFK_BROADCAST, "afksystem.notification.broadcast");
+			if (player.hasPermission("afksystem.notification")) {
+				player.sendMessage(COMPONENT_NOTIFICATION_AFK);
+			}
 			return status;
 		});
 	}
@@ -101,7 +113,10 @@ public final class AfkManager {
 			}
 			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.hasBeenAfkFor() >= this.afkMarkNanos) {
 				status.markAsAfk();
-				player.sendMessage(COMPONENT_INFO);
+				Bukkit.broadcast(COMPONENT_NOTIFICATION_AFK_BROADCAST, "afksystem.notification.broadcast");
+				if (player.hasPermission("afksystem.notification")) {
+					player.sendMessage(COMPONENT_NOTIFICATION_AFK);
+				}
 			}
 		});
 	}
