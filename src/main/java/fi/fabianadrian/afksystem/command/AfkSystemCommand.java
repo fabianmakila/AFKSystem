@@ -2,8 +2,6 @@ package fi.fabianadrian.afksystem.command;
 
 import fi.fabianadrian.afksystem.AFKSystem;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.strokkur.commands.Command;
 import net.strokkur.commands.Executes;
 import net.strokkur.commands.permission.Permission;
@@ -11,15 +9,14 @@ import org.bukkit.command.CommandSender;
 
 @Command("afksystem")
 public final class AfkSystemCommand {
-	private static final Component COMPONENT_PREFIX = MiniMessage.miniMessage().deserialize(
-			"[AfkSystem] "
+	private static final Component COMPONENT_RELOAD_SUCCESS = Component.textOfChildren(
+			Component.text("[AFKSystem] "),
+			Component.translatable("afksystem.command.reload.success")
 	);
-	private static final Component COMPONENT_RELOAD_SUCCESS = COMPONENT_PREFIX.append(Component.translatable(
-			"afksystem.command.reload.success", NamedTextColor.GREEN
-	));
-	private static final Component COMPONENT_RELOAD_FAILURE = COMPONENT_PREFIX.append(Component.translatable(
-			"afksystem.command.reload.failure", NamedTextColor.RED
-	));
+	private static final Component COMPONENT_RELOAD_FAILURE = Component.textOfChildren(
+			Component.text("[AFKSystem] "),
+			Component.translatable("afksystem.command.reload.failure")
+	);
 	private final AFKSystem plugin;
 
 	public AfkSystemCommand(AFKSystem plugin) {
