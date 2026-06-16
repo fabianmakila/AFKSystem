@@ -27,7 +27,7 @@ public final class AFKSystem extends JavaPlugin {
 	private final ConfigManager configManager;
 	private final ExpansionManager expansionManager;
 	private final TranslationManager translationManager;
-	private final MessageHandler messageHandler = new MessageHandler();
+	private final MessageHandler messageHandler = new MessageHandler(this);
 
 	public AFKSystem() {
 		this.afkManager = new AfkManager(this);

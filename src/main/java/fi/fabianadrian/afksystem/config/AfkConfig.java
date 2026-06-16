@@ -1,5 +1,6 @@
 package fi.fabianadrian.afksystem.config;
 
+import fi.fabianadrian.afksystem.config.section.NotificationSection;
 import fi.fabianadrian.afksystem.config.section.ProtectionSection;
 import fi.fabianadrian.afksystem.event.EventType;
 import space.arim.dazzleconf.engine.Comments;
@@ -38,4 +39,7 @@ public interface AfkConfig {
 
 	@SubSection
 	ProtectionSection protection();
+
+	@SubSection
+	NotificationSection notification();
 }
