@@ -33,9 +33,9 @@ public final class AfkSystemCommand {
 			this.plugin.load();
 			sender.sendMessage(COMPONENT_RELOAD_SUCCESS);
 		} catch (Throwable throwable) {
-			AFKSystem.ERROR_TRACKER.trackError(throwable);
-			this.plugin.getSLF4JLogger().error("Couldn't reload plugin", throwable);
 			sender.sendMessage(COMPONENT_RELOAD_FAILURE);
+			this.plugin.getSLF4JLogger().error("Couldn't reload plugin", throwable);
+			AFKSystem.ERROR_TRACKER.trackError(throwable);
 		}
 	}
 }
