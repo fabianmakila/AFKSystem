@@ -16,12 +16,11 @@ public interface AfkConfig {
 		return 300;
 	}
 
-	@Comments("Total idle time in seconds before a player is warned about being kicked soon")
-	@Comments("This should be less than afkKickSeconds")
+	@Comments("Seconds before the kick when a warning is sent")
 	@Comments("Set to -1 to disable")
 	@IntegerRange(min = -1)
 	default int afkWarnSeconds() {
-		return 570;
+		return 30;
 	}
 
 	@Comments("Total idle time in seconds before a player is kicked")

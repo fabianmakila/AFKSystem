@@ -36,7 +36,7 @@ public final class AfkManager {
 		this.config = this.plugin.config();
 
 		this.afkMarkNanos = TimeUnit.SECONDS.toNanos(this.config.afkMarkSeconds());
-		this.warnNanos = TimeUnit.SECONDS.toNanos(this.config.afkWarnSeconds());
+		this.warnNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds() - this.config.afkWarnSeconds());
 		this.kickNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds());
 
 		this.warnComponent = Component.translatable(
