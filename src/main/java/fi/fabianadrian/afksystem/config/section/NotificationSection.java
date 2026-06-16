@@ -12,7 +12,7 @@ public interface NotificationSection {
 	@Comments("Should we notify player when they are no longer AFK")
 	@Comments("Player must have the afksystem.notification permission to be able to see the notification")
 	default boolean noLongerAfk() {
-		return false;
+		return true;
 	}
 
 	@Comments("Should other players be notified when a player goes AFK")
