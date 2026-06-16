@@ -32,9 +32,9 @@ public interface AfkConfig {
 	}
 
 	@Comments("Which events will reset the AFK timer")
-	@Comments("Supported values: CHAT, INPUT")
+	@Comments("Supported values: BLOCK_BREAK, CHAT, COMMAND, INPUT, INTERACT")
 	default List<EventType> events() {
-		return List.of(EventType.CHAT, EventType.INPUT);
+		return List.of(EventType.BLOCK_BREAK, EventType.CHAT, EventType.COMMAND, EventType.INPUT, EventType.INTERACT);
 	}
 
 	@SubSection

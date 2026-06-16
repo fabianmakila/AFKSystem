@@ -1,5 +1,5 @@
 package fi.fabianadrian.afksystem.event;
 
 public enum EventType {
-	CHAT, INPUT
+	BLOCK_BREAK, CHAT, COMMAND, INPUT, INTERACT
 }
