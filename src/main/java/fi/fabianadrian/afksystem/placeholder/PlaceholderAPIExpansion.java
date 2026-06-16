@@ -1,7 +1,7 @@
 package fi.fabianadrian.afksystem.placeholder;
 
 import fi.fabianadrian.afksystem.AFKSystem;
-import fi.fabianadrian.afksystem.placeholder.placeholder.BooleanPlaceholder;
+import fi.fabianadrian.afksystem.placeholder.placeholder.AfkPlaceholder;
 import fi.fabianadrian.afksystem.placeholder.placeholder.IndicatorPlaceholder;
 import fi.fabianadrian.afksystem.placeholder.placeholder.ListPlaceholder;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 
 public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
-	private final BooleanPlaceholder booleanPlaceholder;
+	private final AfkPlaceholder afkPlaceholder;
 	private final IndicatorPlaceholder indicatorPlaceholder;
 	private final ListPlaceholder listPlaceholder;
 
 	public PlaceholderAPIExpansion(AFKSystem plugin) {
-		this.booleanPlaceholder = new BooleanPlaceholder(plugin);
+		this.afkPlaceholder = new AfkPlaceholder(plugin);
 		this.indicatorPlaceholder = new IndicatorPlaceholder(plugin);
 		this.listPlaceholder = new ListPlaceholder(plugin);
 	}
@@ -46,8 +46,8 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 	public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
 		String[] split = params.toLowerCase(Locale.ROOT).split("_", 2);
 		switch (split[0]) {
-			case "boolean" -> {
-				return this.booleanPlaceholder.string(player, split[1]);
+			case "afk" -> {
+				return this.afkPlaceholder.string(player, split[1]);
 			}
 			case "indicator" -> {
 				return this.indicatorPlaceholder.string(player, split[1]);

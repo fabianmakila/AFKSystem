@@ -6,13 +6,13 @@ import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import org.bukkit.entity.Player;
 
-public final class BooleanPlaceholder extends Placeholder {
+public final class AfkPlaceholder extends Placeholder {
 	private static final TranslatableComponent COMPONENT_BOOLEAN_TRUE = Component.translatable("afksystem.placeholder.boolean.true");
 	private static final TranslatableComponent COMPONENT_BOOLEAN_FALSE = Component.translatable("afksystem.placeholder.boolean.false");
 	private static final Tag TAG_YES = Tag.preProcessParsed("yes");
 	private static final Tag TAG_NO = Tag.preProcessParsed("no");
 
-	public BooleanPlaceholder(AFKSystem plugin) {
+	public AfkPlaceholder(AFKSystem plugin) {
 		super(plugin);
 	}
 
