@@ -23,7 +23,7 @@ dependencies {
 	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.2.0")
 	compileOnly("me.clip:placeholderapi:2.12.2")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
-	implementation("dev.faststats.metrics:bukkit:0.23.0")
+	implementation("dev.faststats.metrics:bukkit:0.26.1")
 	compileOnly("net.strokkur.commands:annotations-paper:2.1.1")
 	annotationProcessor("net.strokkur.commands:processor-paper:2.1.1")
 }

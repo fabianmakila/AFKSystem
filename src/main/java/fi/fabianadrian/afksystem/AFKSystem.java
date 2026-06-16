@@ -1,7 +1,7 @@
 package fi.fabianadrian.afksystem;
 
-import dev.faststats.bukkit.BukkitMetrics;
-import dev.faststats.core.ErrorTracker;
+import dev.faststats.ErrorTracker;
+import dev.faststats.bukkit.BukkitContext;
 import fi.fabianadrian.afksystem.afk.AfkManager;
 import fi.fabianadrian.afksystem.command.AfkCommandBrigadier;
 import fi.fabianadrian.afksystem.command.AfkSystemCommandBrigadier;
@@ -19,10 +19,9 @@ import java.io.IOException;
 
 public final class AFKSystem extends JavaPlugin {
 	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
-	private final BukkitMetrics metrics = BukkitMetrics.factory()
-			.token("88be6b8b8fe5f8221046675e57d5fd54")
-			.errorTracker(ERROR_TRACKER)
-			.create(this);
+	private final BukkitContext context = new BukkitContext.Factory(this, "88be6b8b8fe5f8221046675e57d5fd54")
+			.errorTrackerService(ERROR_TRACKER)
+			.create();
 	private final AfkManager afkManager;
 	private final ConfigManager configManager;
 	private final ExpansionManager expansionManager;
@@ -38,7 +37,7 @@ public final class AFKSystem extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.metrics.ready();
+		this.context.ready();
 		this.translationManager.load();
 		this.expansionManager.register();
 
@@ -62,7 +61,7 @@ public final class AFKSystem extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		this.metrics.shutdown();
+		this.context.shutdown();
 	}
 
 	public void load() throws IOException {
