@@ -45,6 +45,9 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 	@Override
 	public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
 		String[] split = params.toLowerCase(Locale.ROOT).split("_", 2);
+		if (split.length < 2) {
+			return null;
+		}
 		switch (split[0]) {
 			case "afk" -> {
 				return this.afkPlaceholder.string(player, split[1]);

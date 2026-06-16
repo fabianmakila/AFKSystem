@@ -30,7 +30,12 @@ public abstract class Placeholder {
 	}
 
 	String serializeComponent(Component component, Player player, String format) {
-		StringFormat parsedFormat = StringFormat.valueOf(format.toUpperCase(Locale.ROOT));
+		StringFormat parsedFormat;
+		try {
+			parsedFormat = StringFormat.valueOf(format.toUpperCase(Locale.ROOT));
+		} catch (IllegalArgumentException exception) {
+			return null;
+		}
 		BiFunction<Component, Locale, String> serializer = this.serializers.get(parsedFormat);
 		return serializer != null ? serializer.apply(component, player.locale()) : null;
 	}
