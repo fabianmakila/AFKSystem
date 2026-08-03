@@ -3,8 +3,9 @@ import xyz.jpenilla.resourcefactory.paper.PaperPluginYaml.Load
 plugins {
 	id("java")
 	id("xyz.jpenilla.resource-factory-paper-convention") version "1.3.1"
-	id("com.gradleup.shadow") version "9.4.1"
-	id("com.diffplug.spotless") version "8.5.1"
+	id("com.gradleup.shadow") version "9.6.1"
+	id("com.diffplug.spotless") version "8.9.0"
+	id("io.github.ben-manes.versions") version "0.59.0"
 }
 
 group = "fi.fabianadrian"
@@ -20,13 +21,13 @@ repositories {
 }
 
 dependencies {
-	compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+	compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 	compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.2.0")
-	compileOnly("me.clip:placeholderapi:2.12.2")
+	compileOnly("me.clip:placeholderapi:2.12.3")
 	implementation("space.arim.dazzleconf:dazzleconf-toml:2.0.0-M2")
-	implementation("dev.faststats.metrics:bukkit:0.26.1")
-	compileOnly("net.strokkur.commands:annotations-paper:2.1.1")
-	annotationProcessor("net.strokkur.commands:processor-paper:2.1.1")
+	implementation("dev.faststats.metrics:bukkit:0.29.4")
+	compileOnly("net.strokkur.commands:annotations-paper:2.1.4")
+	annotationProcessor("net.strokkur.commands:processor-paper:2.1.4")
 }
 
 java {
