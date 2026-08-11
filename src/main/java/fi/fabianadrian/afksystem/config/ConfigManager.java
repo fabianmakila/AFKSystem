@@ -1,6 +1,7 @@
 package fi.fabianadrian.afksystem.config;
 
 import fi.fabianadrian.afksystem.AFKSystem;
+import fi.fabianadrian.afksystem.config.liaison.LocaleLiaison;
 import space.arim.dazzleconf.Configuration;
 import space.arim.dazzleconf.LoadResult;
 import space.arim.dazzleconf.backend.Backend;
@@ -20,7 +21,7 @@ public final class ConfigManager {
 	public ConfigManager(AFKSystem plugin) {
 		this.dataDirectory = plugin.getDataPath();
 
-		this.configuration = Configuration.defaultBuilder(AfkConfig.class).build();
+		this.configuration = Configuration.defaultBuilder(AfkConfig.class).addTypeLiaisons(new LocaleLiaison()).build();
 		this.backend = new TomlBackend(new PathRoot(this.dataDirectory.resolve("config.toml")));
 	}
 

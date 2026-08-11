@@ -8,8 +8,15 @@ import space.arim.dazzleconf.engine.liaison.IntegerRange;
 import space.arim.dazzleconf.engine.liaison.SubSection;
 
 import java.util.List;
+import java.util.Locale;
 
 public interface AfkConfig {
+	@Comments("The plugin will prefer the player's language when available")
+	@Comments("The fallback locale used when a translation is not available for the player's language")
+	default Locale defaultLocale() {
+		return Locale.ENGLISH;
+	}
+
 	@Comments("Idle time in seconds before a player is marked as AFK")
 	@Comments("Set to -1 to disable")
 	@IntegerRange(min = -1)

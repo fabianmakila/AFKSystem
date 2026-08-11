@@ -18,67 +18,68 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 
 public final class AFKSystem extends JavaPlugin {
-	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
-	private final BukkitContext context = new BukkitContext.Factory(this, "88be6b8b8fe5f8221046675e57d5fd54")
-			.errorTrackerService(ERROR_TRACKER)
-			.create();
-	private final AfkManager afkManager;
-	private final ConfigManager configManager;
-	private final ExpansionManager expansionManager;
-	private final TranslationManager translationManager;
-	private final MessageHandler messageHandler = new MessageHandler(this);
+    public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
+    private final BukkitContext context = new BukkitContext.Factory(this, "88be6b8b8fe5f8221046675e57d5fd54")
+            .errorTrackerService(ERROR_TRACKER)
+            .create();
+    private final AfkManager afkManager;
+    private final ConfigManager configManager;
+    private final ExpansionManager expansionManager;
+    private final TranslationManager translationManager;
+    private final MessageHandler messageHandler = new MessageHandler(this);
 
-	public AFKSystem() {
-		this.afkManager = new AfkManager(this);
-		this.configManager = new ConfigManager(this);
-		this.expansionManager = new ExpansionManager(this);
-		this.translationManager = new TranslationManager(getSLF4JLogger(), getDataPath());
-	}
+    public AFKSystem() {
+        this.afkManager = new AfkManager(this);
+        this.configManager = new ConfigManager(this);
+        this.expansionManager = new ExpansionManager(this);
+        this.translationManager = new TranslationManager(this);
+    }
 
-	@Override
-	public void onEnable() {
-		this.context.ready();
-		this.translationManager.load();
-		this.expansionManager.register();
+    @Override
+    public void onEnable() {
+        this.context.ready();
+        this.expansionManager.register();
 
-		getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
-			final Commands commands = event.registrar();
-			commands.register(AfkSystemCommandBrigadier.create(this));
-			commands.register(AfkCommandBrigadier.create(this));
-		});
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Commands commands = event.registrar();
+            commands.register(AfkSystemCommandBrigadier.create(this));
+            commands.register(AfkCommandBrigadier.create(this));
+        });
 
-		getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        getServer().getPluginManager().registerEvents(new EventListener(this), this);
 
-		try {
-			this.configManager.load();
-		} catch (Throwable throwable) {
-			getSLF4JLogger().error("Couldn't load configuration", throwable);
-			ERROR_TRACKER.trackError(throwable);
-			return;
-		}
-		this.afkManager.load();
-	}
+        try {
+            this.configManager.load();
+        } catch (Throwable throwable) {
+            getSLF4JLogger().error("Couldn't load configuration", throwable);
+            ERROR_TRACKER.trackError(throwable);
+            return;
+        }
 
-	@Override
-	public void onDisable() {
-		this.context.shutdown();
-	}
+        this.translationManager.load();
+        this.afkManager.load();
+    }
 
-	public void load() throws IOException {
-		this.translationManager.load();
-		this.configManager.load();
-		this.afkManager.load();
-	}
+    @Override
+    public void onDisable() {
+        this.context.shutdown();
+    }
 
-	public AfkConfig config() {
-		return this.configManager.config();
-	}
+    public void load() throws IOException {
+        this.configManager.load();
+        this.translationManager.load();
+        this.afkManager.load();
+    }
 
-	public AfkManager afkManager() {
-		return this.afkManager;
-	}
+    public AfkConfig config() {
+        return this.configManager.config();
+    }
 
-	public MessageHandler messageHandler() {
-		return this.messageHandler;
-	}
+    public AfkManager afkManager() {
+        return this.afkManager;
+    }
+
+    public MessageHandler messageHandler() {
+        return this.messageHandler;
+    }
 }
