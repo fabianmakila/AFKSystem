@@ -3,6 +3,7 @@ package fi.fabianadrian.afksystem.plugin;
 import dev.faststats.ErrorTracker;
 import dev.faststats.bukkit.BukkitContext;
 import fi.fabianadrian.afksystem.plugin.afk.AfkManager;
+import fi.fabianadrian.afksystem.plugin.api.AfkSystemAPI;
 import fi.fabianadrian.afksystem.plugin.command.AfkCommandBrigadier;
 import fi.fabianadrian.afksystem.plugin.command.AfkSystemCommandBrigadier;
 import fi.fabianadrian.afksystem.plugin.config.AfkConfig;
@@ -14,10 +15,11 @@ import fi.fabianadrian.afksystem.plugin.placeholder.ExpansionManager;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 
-public final class AFKSystem extends JavaPlugin {
+public final class AFKSystem extends JavaPlugin implements AfkSystemAPI {
 	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
 	private final BukkitContext context = new BukkitContext.Factory(this, "88be6b8b8fe5f8221046675e57d5fd54")
 			.errorTrackerService(ERROR_TRACKER)
@@ -75,7 +77,8 @@ public final class AFKSystem extends JavaPlugin {
 		return this.configManager.config();
 	}
 
-	public AfkManager afkManager() {
+	@Override
+	public @NonNull AfkManager afkManager() {
 		return this.afkManager;
 	}
 

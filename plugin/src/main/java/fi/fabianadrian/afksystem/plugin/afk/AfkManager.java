@@ -9,12 +9,13 @@ import net.kyori.adventure.text.minimessage.translation.Argument;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public final class AfkManager {
+public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.AfkManager {
 	private final Map<Player, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -81,6 +82,7 @@ public final class AfkManager {
 		});
 	}
 
+	@Override
 	public boolean afk(Player player) {
 		AfkStatus status = this.afkStatusMap.get(player);
 		if (status == null) {
@@ -94,7 +96,8 @@ public final class AfkManager {
 		this.afkStatusMap.remove(player);
 	}
 
-	public List<Player> afkPlayerList() {
+	@Override
+	public @NonNull List<@NonNull Player> afkPlayerList() {
 		return this.afkStatusMap.entrySet().stream().filter(entry -> entry.getValue().afk()).map(Map.Entry::getKey).toList();
 	}
 
