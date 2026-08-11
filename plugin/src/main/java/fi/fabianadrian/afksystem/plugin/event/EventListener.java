@@ -2,6 +2,7 @@ package fi.fabianadrian.afksystem.plugin.event;
 
 import fi.fabianadrian.afksystem.plugin.AFKSystem;
 import fi.fabianadrian.afksystem.plugin.afk.AfkManager;
+import fi.fabianadrian.afksystem.plugin.api.event.EventType;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

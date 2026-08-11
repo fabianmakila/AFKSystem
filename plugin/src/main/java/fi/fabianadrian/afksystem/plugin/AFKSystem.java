@@ -16,6 +16,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -67,19 +68,20 @@ public final class AFKSystem extends JavaPlugin implements AfkSystemAPI {
 		this.context.shutdown();
 	}
 
+	@Override
+	public @NonNull AfkManager afkManager() {
+		return this.afkManager;
+	}
+
+	@Override
+	public @Nullable AfkConfig config() {
+		return this.configManager.config();
+	}
+
 	public void load() throws IOException {
 		this.configManager.load();
 		this.translationManager.load();
 		this.afkManager.load();
-	}
-
-	public AfkConfig config() {
-		return this.configManager.config();
-	}
-
-	@Override
-	public @NonNull AfkManager afkManager() {
-		return this.afkManager;
 	}
 
 	public MessageHandler messageHandler() {
