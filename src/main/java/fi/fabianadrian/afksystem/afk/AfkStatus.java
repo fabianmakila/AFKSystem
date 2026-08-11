@@ -23,7 +23,7 @@ public final class AfkStatus {
 		this.warned = true;
 	}
 
-	public long hasBeenAfkFor() {
+	public long afkNanos() {
 		return System.nanoTime() - this.afkSince;
 	}
 

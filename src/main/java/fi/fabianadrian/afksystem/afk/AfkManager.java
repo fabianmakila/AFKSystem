@@ -101,15 +101,15 @@ public final class AfkManager {
 	private void tick() {
 		this.afkStatusMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
-				if (status.hasBeenAfkFor() >= this.kickNanos) {
+				if (status.afkNanos() >= this.kickNanos) {
 					player.kick(this.messageHandler.kickMessage(player), PlayerKickEvent.Cause.IDLING);
 				}
-				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.hasBeenAfkFor() >= this.warnNanos) {
+				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.afkNanos() >= this.warnNanos) {
 					status.markAsWarned();
 					player.sendMessage(this.warnComponent);
 				}
 			}
-			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.hasBeenAfkFor() >= this.afkMarkNanos) {
+			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.afkNanos() >= this.afkMarkNanos) {
 				status.markAsAfk();
 				this.messageHandler.sendAfkNotificationPermission(player);
 			}
