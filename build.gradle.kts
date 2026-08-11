@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "fi.fabianadrian"
-version = "1.2.0"
+version = "1.3.0-SNAPSHOT"
 description = "A simple AFK system for Paper"
 
 repositories {
