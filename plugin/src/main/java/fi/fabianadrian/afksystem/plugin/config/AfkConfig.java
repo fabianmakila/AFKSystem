@@ -3,6 +3,7 @@ package fi.fabianadrian.afksystem.plugin.config;
 import fi.fabianadrian.afksystem.plugin.api.event.EventType;
 import fi.fabianadrian.afksystem.plugin.config.section.NotificationSection;
 import fi.fabianadrian.afksystem.plugin.config.section.ProtectionSection;
+import org.jspecify.annotations.NonNull;
 import space.arim.dazzleconf.engine.Comments;
 import space.arim.dazzleconf.engine.liaison.IntegerRange;
 import space.arim.dazzleconf.engine.liaison.SubSection;
@@ -14,7 +15,7 @@ public interface AfkConfig extends fi.fabianadrian.afksystem.plugin.api.config.A
 	@Comments("The plugin will prefer the player's language when available")
 	@Comments("The fallback locale used when a translation is not available for the player's language")
 	@Override
-	default Locale defaultLocale() {
+	default @NonNull Locale defaultLocale() {
 		return Locale.ENGLISH;
 	}
 
@@ -45,15 +46,17 @@ public interface AfkConfig extends fi.fabianadrian.afksystem.plugin.api.config.A
 	@Comments("Which events will reset the AFK timer")
 	@Comments("Supported values: BLOCK_BREAK, CHAT, COMMAND, INPUT, INTERACT")
 	@Override
-	default List<EventType> events() {
+	default @NonNull List<EventType> events() {
 		return List.of(EventType.BLOCK_BREAK, EventType.CHAT, EventType.COMMAND, EventType.INPUT, EventType.INTERACT);
 	}
 
 	@SubSection
 	@Override
+	@NonNull
 	ProtectionSection protection();
 
 	@SubSection
 	@Override
+	@NonNull
 	NotificationSection notification();
 }

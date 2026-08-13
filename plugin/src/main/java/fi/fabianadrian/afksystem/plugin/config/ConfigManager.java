@@ -37,6 +37,9 @@ public final class ConfigManager {
 	}
 
 	public AfkConfig config() {
+		if (this.config == null) {
+			throw new IllegalStateException("Config hasn't loaded yet");
+		}
 		return this.config;
 	}
 }
