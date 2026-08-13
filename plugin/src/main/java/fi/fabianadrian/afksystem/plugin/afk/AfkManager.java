@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.AfkManager {
-	private final Map<Player, AfkStatus> afkStatusMap = new ConcurrentHashMap<>();
+	private final Map<Player, AfkData> dataMap = new ConcurrentHashMap<>();
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 	private final MessageHandler messageHandler;
@@ -50,9 +50,9 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	}
 
 	public void markAsActive(Player player) {
-		this.afkStatusMap.compute(player, (_, status) -> {
+		this.dataMap.compute(player, (_, status) -> {
 			if (status == null) {
-				return new AfkStatus();
+				return new AfkData();
 			}
 			if (status.afk()) {
 				this.messageHandler.sendNoLongerAfkNotificationPermission(player);
@@ -63,9 +63,9 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	}
 
 	public void markAsActiveCommand(Player player) {
-		this.afkStatusMap.compute(player, (_, status) -> {
+		this.dataMap.compute(player, (_, status) -> {
 			if (status == null) {
-				return new AfkStatus();
+				return new AfkData();
 			}
 			status.markAsActive();
 			return status;
@@ -73,9 +73,9 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	}
 
 	public void markAsAfkCommand(Player player) {
-		this.afkStatusMap.compute(player, (_, status) -> {
+		this.dataMap.compute(player, (_, status) -> {
 			if (status == null) {
-				status = new AfkStatus();
+				status = new AfkData();
 			}
 			status.markAsAfk();
 			return status;
@@ -84,7 +84,7 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 
 	@Override
 	public boolean afk(Player player) {
-		AfkStatus status = this.afkStatusMap.get(player);
+		AfkData status = this.dataMap.get(player);
 		if (status == null) {
 			return false;
 		}
@@ -93,26 +93,26 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	}
 
 	public void remove(Player player) {
-		this.afkStatusMap.remove(player);
+		this.dataMap.remove(player);
 	}
 
 	@Override
 	public @NonNull List<@NonNull Player> afkPlayerList() {
-		return this.afkStatusMap.entrySet().stream().filter(entry -> entry.getValue().afk()).map(Map.Entry::getKey).toList();
+		return this.dataMap.entrySet().stream().filter(entry -> entry.getValue().afk()).map(Map.Entry::getKey).toList();
 	}
 
 	private void tick() {
-		this.afkStatusMap.forEach((player, status) -> {
+		this.dataMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
-				if (status.afkNanos() >= this.kickNanos) {
+				if (status.idleDurationNanos() >= this.kickNanos) {
 					player.kick(this.messageHandler.kickMessage(player), PlayerKickEvent.Cause.IDLING);
 				}
-				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.afkNanos() >= this.warnNanos) {
+				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.idleDurationNanos() >= this.warnNanos) {
 					status.markAsWarned();
 					player.sendMessage(this.warnComponent);
 				}
 			}
-			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.afkNanos() >= this.afkMarkNanos) {
+			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.idleDurationNanos() >= this.afkMarkNanos) {
 				status.markAsAfk();
 				this.messageHandler.sendAfkNotificationPermission(player);
 			}

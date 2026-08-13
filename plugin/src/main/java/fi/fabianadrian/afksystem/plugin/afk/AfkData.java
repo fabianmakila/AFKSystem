@@ -1,16 +1,16 @@
 package fi.fabianadrian.afksystem.plugin.afk;
 
-public final class AfkStatus {
-	private long afkSince;
+public final class AfkData {
+	private long idleStartNanos;
 	private boolean warned = false;
 	private boolean afk = false;
 
-	public AfkStatus() {
-		this.afkSince = System.nanoTime();
+	public AfkData() {
+		this.idleStartNanos = System.nanoTime();
 	}
 
 	public void markAsActive() {
-		this.afkSince = System.nanoTime();
+		this.idleStartNanos = System.nanoTime();
 		this.warned = false;
 		this.afk = false;
 	}
@@ -23,8 +23,12 @@ public final class AfkStatus {
 		this.warned = true;
 	}
 
-	public long afkNanos() {
-		return System.nanoTime() - this.afkSince;
+	public long idleStartNanos() {
+		return this.idleStartNanos;
+	}
+
+	public long idleDurationNanos() {
+		return System.nanoTime() - this.idleStartNanos;
 	}
 
 	public boolean warned() {
