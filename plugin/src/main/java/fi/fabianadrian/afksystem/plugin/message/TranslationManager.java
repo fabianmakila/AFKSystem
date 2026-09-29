@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public final class TranslationManager {
-	private static final List<Locale> BUNDLED_LOCALES = List.of(Locale.US, Locale.of("fi", "FI"));
+	private static final List<Locale> BUNDLED_LOCALES = List.of(Locale.ENGLISH, Locale.of("fi", "FI"));
 	private final Path localeDirectoryPath;
 
 	private final Logger logger;
@@ -27,10 +27,6 @@ public final class TranslationManager {
 		this.plugin = plugin;
 		this.logger = plugin.getSLF4JLogger();
 		this.localeDirectoryPath = plugin.getDataPath().resolve("locale");
-	}
-
-	private static boolean isAdventureDuplicatesException(Exception e) {
-		return e instanceof IllegalArgumentException && (e.getMessage().startsWith("Invalid key") || e.getMessage().startsWith("Translation already exists"));
 	}
 
 	public void load() {
@@ -44,9 +40,13 @@ public final class TranslationManager {
 		createLocaleDirectory();
 		copyToLocaleDirectory();
 		registerFromLocaleDirectory();
-		registerDefaultLocale();
+		registerFallbackForLocale(this.plugin.config().defaultLocale());
 
 		GlobalTranslator.translator().addSource(this.store);
+	}
+
+	private boolean isAdventureDuplicatesException(Exception e) {
+		return e instanceof IllegalArgumentException && (e.getMessage().startsWith("Invalid key") || e.getMessage().startsWith("Translation already exists"));
 	}
 
 	private void createLocaleDirectory() {
@@ -123,16 +123,15 @@ public final class TranslationManager {
 		}
 	}
 
-	private void registerDefaultLocale() {
-		ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.US);
+	private void registerFallbackForLocale(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.ENGLISH);
 		try {
-			this.store.registerAll(Locale.US, bundle, false);
+			this.store.registerAll(locale, bundle, false);
 		} catch (IllegalArgumentException exception) {
 			if (isAdventureDuplicatesException(exception)) {
 				return;
 			}
-			AFKSystem.ERROR_TRACKER.trackError(exception);
-			this.logger.error("Error registering default locale", exception);
+			this.logger.warn("Error registering fallback locale", exception);
 		}
 	}
 
