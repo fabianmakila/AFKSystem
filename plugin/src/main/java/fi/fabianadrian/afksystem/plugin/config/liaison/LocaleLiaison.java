@@ -1,10 +1,12 @@
 package fi.fabianadrian.afksystem.plugin.config.liaison;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import space.arim.dazzleconf.LoadResult;
-import space.arim.dazzleconf.engine.*;
+import space.arim.dazzleconf.engine.DeserializeInput;
+import space.arim.dazzleconf.engine.SerializeDeserialize;
+import space.arim.dazzleconf.engine.SerializeOutput;
+import space.arim.dazzleconf.engine.TypeLiaison;
 import space.arim.dazzleconf.reflect.TypeToken;
 
 import java.util.Locale;
@@ -16,12 +18,6 @@ public final class LocaleLiaison implements TypeLiaison {
 	}
 
 	private static class LocaleAgent implements Agent<Locale> {
-
-		@Override
-		public @Nullable DefaultValues<Locale> loadDefaultValues(@NonNull DefaultInit<Locale> defaultInit) {
-			return Agent.super.loadDefaultValues(defaultInit);
-		}
-
 		@Override
 		public @NonNull SerializeDeserialize<Locale> makeSerializer() {
 			return new SerializeDeserialize<>() {
@@ -40,7 +36,7 @@ public final class LocaleLiaison implements TypeLiaison {
 				}
 
 				@Override
-				public void serialize(@NotNull Locale value, @NonNull SerializeOutput ser) {
+				public void serialize(@NonNull Locale value, @NonNull SerializeOutput ser) {
 					ser.outString(value.toLanguageTag());
 				}
 			};
