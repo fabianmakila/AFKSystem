@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.jspecify.annotations.NonNull;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -20,9 +21,9 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	private final AFKSystem plugin;
 	private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 	private final MessageHandler messageHandler;
-	private long afkMarkNanos;
-	private long warnNanos;
-	private long kickNanos;
+	private Duration afkMarkDuration;
+	private Duration warnDuration;
+	private Duration kickDuration;
 	private TranslatableComponent warnComponent;
 	private ScheduledFuture<?> scheduledFuture;
 	private AfkConfig config;
@@ -35,9 +36,9 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	public void load() {
 		this.config = this.plugin.config();
 
-		this.afkMarkNanos = TimeUnit.SECONDS.toNanos(this.config.afkMarkSeconds());
-		this.warnNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds() - this.config.afkWarnSeconds());
-		this.kickNanos = TimeUnit.SECONDS.toNanos(this.config.afkKickSeconds());
+		this.afkMarkDuration = Duration.ofSeconds(this.config.afkMarkSeconds());
+		this.warnDuration = Duration.ofSeconds(this.config.afkKickSeconds() - this.config.afkWarnSeconds());
+		this.kickDuration = Duration.ofSeconds(this.config.afkKickSeconds());
 
 		this.warnComponent = Component.translatable(
 				"afksystem.kick.warning",
@@ -104,15 +105,15 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	private void tick() {
 		this.dataMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
-				if (status.idleDuration().toNanos() >= this.kickNanos) {
+				if (status.idleDuration().compareTo(this.kickDuration) > 0) {
 					player.kick(this.messageHandler.kickMessage(player), PlayerKickEvent.Cause.IDLING);
 				}
-				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.idleDuration().toNanos() >= this.warnNanos) {
+				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.idleDuration().compareTo(this.warnDuration) > 0) {
 					status.markAsWarned();
 					player.sendMessage(this.warnComponent);
 				}
 			}
-			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.idleDuration().toNanos() >= this.afkMarkNanos) {
+			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.idleDuration().compareTo(this.afkMarkDuration) > 0) {
 				status.markAsAfk();
 				this.messageHandler.sendAfkNotificationPermission(player);
 			}
