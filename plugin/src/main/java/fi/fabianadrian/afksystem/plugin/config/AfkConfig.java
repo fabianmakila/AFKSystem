@@ -52,11 +52,9 @@ public interface AfkConfig extends fi.fabianadrian.afksystem.plugin.api.config.A
 
 	@SubSection
 	@Override
-	@NonNull
-	ProtectionSection protection();
+	@NonNull ProtectionSection protection();
 
 	@SubSection
 	@Override
-	@NonNull
-	NotificationSection notification();
+	@NonNull NotificationSection notification();
 }

@@ -104,15 +104,15 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 	private void tick() {
 		this.dataMap.forEach((player, status) -> {
 			if (this.config.afkKickSeconds() >= 0 && !player.hasPermission("afksystem.kick.bypass")) {
-				if (status.idleDurationNanos() >= this.kickNanos) {
+				if (status.idleDuration().toNanos() >= this.kickNanos) {
 					player.kick(this.messageHandler.kickMessage(player), PlayerKickEvent.Cause.IDLING);
 				}
-				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.idleDurationNanos() >= this.warnNanos) {
+				if (this.config.afkWarnSeconds() >= 0 && !status.warned() && status.idleDuration().toNanos() >= this.warnNanos) {
 					status.markAsWarned();
 					player.sendMessage(this.warnComponent);
 				}
 			}
-			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.idleDurationNanos() >= this.afkMarkNanos) {
+			if (this.config.afkMarkSeconds() >= 0 && !afk(player) && status.idleDuration().toNanos() >= this.afkMarkNanos) {
 				status.markAsAfk();
 				this.messageHandler.sendAfkNotificationPermission(player);
 			}

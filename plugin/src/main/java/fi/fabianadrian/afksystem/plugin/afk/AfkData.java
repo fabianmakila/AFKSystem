@@ -1,5 +1,7 @@
 package fi.fabianadrian.afksystem.plugin.afk;
 
+import java.time.Duration;
+
 public final class AfkData {
 	private long idleStartNanos;
 	private boolean warned = false;
@@ -27,8 +29,8 @@ public final class AfkData {
 		return this.idleStartNanos;
 	}
 
-	public long idleDurationNanos() {
-		return System.nanoTime() - this.idleStartNanos;
+	public Duration idleDuration() {
+		return Duration.ofNanos(System.nanoTime() - this.idleStartNanos);
 	}
 
 	public boolean warned() {

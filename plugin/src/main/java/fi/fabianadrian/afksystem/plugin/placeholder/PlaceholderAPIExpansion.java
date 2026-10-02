@@ -2,6 +2,7 @@ package fi.fabianadrian.afksystem.plugin.placeholder;
 
 import fi.fabianadrian.afksystem.plugin.AFKSystem;
 import fi.fabianadrian.afksystem.plugin.placeholder.placeholder.AfkPlaceholder;
+import fi.fabianadrian.afksystem.plugin.placeholder.placeholder.IdleDurationPlaceholder;
 import fi.fabianadrian.afksystem.plugin.placeholder.placeholder.IndicatorPlaceholder;
 import fi.fabianadrian.afksystem.plugin.placeholder.placeholder.ListPlaceholder;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -15,6 +16,7 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 	private final AfkPlaceholder afkPlaceholder;
 	private final IndicatorPlaceholder indicatorPlaceholder;
 	private final ListPlaceholder listPlaceholder;
+	private final IdleDurationPlaceholder idleDurationPlaceholder;
 	private final AFKSystem plugin;
 
 	public PlaceholderAPIExpansion(AFKSystem plugin) {
@@ -22,6 +24,7 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 		this.afkPlaceholder = new AfkPlaceholder(plugin);
 		this.indicatorPlaceholder = new IndicatorPlaceholder(plugin);
 		this.listPlaceholder = new ListPlaceholder(plugin);
+		this.idleDurationPlaceholder = new IdleDurationPlaceholder(plugin);
 	}
 
 	@Override
@@ -59,6 +62,9 @@ public final class PlaceholderAPIExpansion extends PlaceholderExpansion {
 			}
 			case "list" -> {
 				return this.listPlaceholder.string(player, split[1]);
+			}
+			case "idle_duration" -> {
+				return this.idleDurationPlaceholder.string(player, split[1]);
 			}
 		}
 		return null;
