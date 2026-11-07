@@ -50,6 +50,10 @@ public final class AfkManager implements fi.fabianadrian.afksystem.plugin.api.Af
 		}
 	}
 
+	public void shutdown() {
+		this.executorService.shutdown();
+	}
+
 	public void markAsActive(Player player) {
 		this.dataMap.compute(player, (_, status) -> {
 			if (status == null) {

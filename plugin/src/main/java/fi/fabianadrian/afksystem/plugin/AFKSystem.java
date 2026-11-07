@@ -65,6 +65,7 @@ public final class AFKSystem extends JavaPlugin implements AfkSystemAPI {
 	@Override
 	public void onDisable() {
 		this.context.shutdown();
+		this.afkManager.shutdown();
 	}
 
 	@Override
